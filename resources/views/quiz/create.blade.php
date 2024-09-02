@@ -8,24 +8,24 @@
 
             <div class="">
                 <input type="text" name="chapter" id="chapter" autocomplete="chapter"
-                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    class="block flex-1 text-white border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="chapter">
             </div>
 
             <div class="">
                 <input type="text" name="question" id="question" autocomplete="question"
-                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    class="block flex-1 text-white border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="question">
 
             </div>
 
             <div class="">
                 <input type="text" name="answer" id="answer" autocomplete="answer"
-                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    class="block flex-1 text-white border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="answer">
             </div>
 
-            <input type="hidden" name="_token" value="{{crsf_token()}}" />
+            <input type="hidden" name="_token" value="" />
 
 
             <div class="mt-6 flex items-center justify-end gap-x-6">

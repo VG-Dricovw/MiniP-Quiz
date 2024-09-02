@@ -15,4 +15,4 @@ Route::resources([
     'users' => UserController::class
 ]);
 
-Route::get('/quiz/take', [QuizController::class, 'take']);
+Route::get('/start', [QuizController::class, 'take']);

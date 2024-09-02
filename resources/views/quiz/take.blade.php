@@ -1,15 +1,37 @@
 <x-nav>
-    <div class=" text-white text-center align-text-top text-xl flex justify-center content-center">
-        Hello, welcome to the quiz!
-    </div>
 
-    <div class="mt-20 justify-center content-center flex">
-        <a class="button place-content-center mr-20 bg-red-800 rounded-md p-2 text-white" href="/quiz/take"><button>take
-                the
-                quiz</button></a>
-        <a class="button place-content-center  bg-green-800 rounded-md p-2 text-white" href="/quiz/create"><button>make
-                a
-                chapter</button></a>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div id="quiz-wrapper">
+					<h1>
 
-    </div>
+						<form action="/quiz/store" method="post" class="bg-gray-500 p-10 rounded-md ">
+							<?php
+foreach ($questions as $question) {
+							?>
+
+							<h2 class="text-white"><?=$question['question']?></h2>
+							<input type="text" name="answer" id="answer" autocomplete="answer" placeholder="put your answer here"
+								class="rounded-md pl-4 mb-4">
+
+		
+
+
+							<input type="hidden" name="realanswer" id="realanswer" value="$question->answer?>">
+
+
+							<?php
+
+}
+?>
+								<br>
+						<button type="submit" class="bg-blue-800  rounded-md p-2">submit</button>
+						</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
 </x-nav>

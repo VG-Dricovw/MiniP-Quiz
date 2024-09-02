@@ -21,13 +21,13 @@ class QuizController extends Controller
     }
 
     public function take() {
-        return view("/quiz/take");
+        $questions = Question::all();
+        return view("/quiz/take", compact("questions"));
     }
 
     public function store(Request $request)
     {
-        echo $request;
-        die;
+        
         $quiz = new Question();
         $quiz->chapter = $request->chapter;
         $quiz->question = $request->question;
