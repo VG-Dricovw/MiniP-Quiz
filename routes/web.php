@@ -9,6 +9,13 @@ use App\Models\User;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/login', function () {
+    return view('account/login');
+});
+Route::get('/register', function () {
+    return view('account/register');
+});
+
 
 Route::resources([
     'quiz' => QuizController::class,

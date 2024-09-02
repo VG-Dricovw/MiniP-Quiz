@@ -16,22 +16,6 @@ class LoginController extends Controller
         $token = auth()->login($user);
     }
 
-
-    //     // var_dump($apiuseremail);
-    //     if ($users->count() > 0) {
-    //         foreach ($users as $user) {
-    //             if ($user->email === $apiuseremail && Hash::check($apiuserpassword, $user->password)) {
-    //                 //make token
-    //                 echo "return the token";
-    //                 exit;
-    //             }
-    //         }
-    //         echo "no email matching";
-    //     } else {
-    //         return redirect()->back()->with("error", "no users found in the database");
-    //     }
-    // }
-
     public function app(Request $request)
     {
         $json = [];
