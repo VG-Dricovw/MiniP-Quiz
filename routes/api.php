@@ -3,10 +3,14 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QuizAPIController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserAPIController;
+use App\Http\Controllers\LoginController;
 
-Route::resources([
+Route::apiResources([
     'quiz' => QuizAPIController::class,
-    'users' => UserController::class
+    'users' => UserAPIController::class
 ]);
-// ->middleware('auth:sanctum');
+
+Route::post('/login', [LoginController::class, 'api']);
+
+Route::get('/protected-endpoint', [LoginController::class,'protectedEndpoint']);

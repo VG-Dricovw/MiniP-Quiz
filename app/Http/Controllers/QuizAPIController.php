@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Hash;
 
 class QuizAPIController extends Controller
 {
@@ -11,7 +13,11 @@ class QuizAPIController extends Controller
     public function index()
     {
         $quiz = Question::all();
-        return response()->json($quiz);
+        if ($quiz->count() > 0) {
+            return response()->json($quiz);
+        } else {
+            return redirect()->back()->with("error", "no quiz found");
+        }
 
     }
 
@@ -23,7 +29,8 @@ class QuizAPIController extends Controller
         $quiz->answer = $request->answer;
         $quiz->save();
         return response()->json([
-            "message" => "question added"
+            "message" => "question added",
+            "id"=> $quiz->id
         ], 201);
     }
 
@@ -39,12 +46,6 @@ class QuizAPIController extends Controller
         }
     }
 
-    public function edit($id)
-    {
-        $question = Question::find($id);
-        return view("/quiz{$id}/edit", compact("question"));
-    }
-
     public function update(Request $request, $id)
     {
         if (Question::where('id', $id)->exists()) {
@@ -55,7 +56,7 @@ class QuizAPIController extends Controller
             $question->save();
             return response()->json([
                 'message' => 'question updated'
-            ], 204);
+            ], 200);
         } else {
             return response()->json([
                 'message' => 'question not found'

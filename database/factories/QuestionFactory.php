@@ -17,9 +17,9 @@ class QuestionFactory extends Factory
     public function definition(): array
     {
         return [
-            'chapter' => $this->faker->numberBetween(1, 4),
-            'question' => $this->faker->sentence(),
-            'answer' => $this->faker->randomDigit()
+            'chapter' => fake()->numberBetween(1,4),
+            'question' => fake()->sentence(),
+            'answer' => fake()->numberBetween(3, 12),
         ];
     }
 }
