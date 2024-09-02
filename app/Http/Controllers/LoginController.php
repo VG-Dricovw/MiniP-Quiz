@@ -12,32 +12,11 @@ class LoginController extends Controller
 {
     public function api(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-        var_dump(Auth::attempt($credentials));
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-            $token = JWTAuth::fromUser($user);
-            return response()->json(compact('token'));
-        }
-        return response()->json(['error'=> 'invalid credentials'],401);
-    }
-
-    public function protectedEndpoint(Request $request) {
-        try {
-            $user = JWTAuth::parseToken()->authenticate();
-        } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-            return response()->json(['error'=> 'token expired'],401);
-        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-            return response()->json(['error'=> 'invalid token'],401);
-        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-            return response()->json(['error'=> 'token is missing'],401);
-        }
-
-        return response()->json(['success'=> true, "message" => "you are autherized"]);
+        $user = auth()->user();
+        $token = auth()->login($user);
     }
 
 
-    //     $users = User::all();
     //     // var_dump($apiuseremail);
     //     if ($users->count() > 0) {
     //         foreach ($users as $user) {
