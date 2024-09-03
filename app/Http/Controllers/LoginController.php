@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Auth;
+use App\Http\Controllers\Controller;
+use Hash;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use DB;
 
 class LoginController extends Controller
 {
@@ -18,22 +17,58 @@ class LoginController extends Controller
 
     public function app(Request $request)
     {
-        $json = [];
-        $apiuseremail = $request->email;
-        $apiuserpassword = $request->password;
-        $users = User::all();
-        var_dump($apiuseremail);
+        switch ($request->getRequestUri()) {
+            case "/login":
+                return view("/account/login");
+            case "/register":
+                return view("/account/register");
+            case "/logout":
+                $this->appLogout($request);
+        }
+    }
+
+
+
+    public function appLogin(Request $request)
+    {
+        $validated = $request->validate([
+            "email" => "required",
+            "password" => "required",
+        ]);
+
+        $users = DB::table("users")->whereNotNull("email_verified_at")->get();
+
         if ($users->count() > 0) {
+            // var_dump($validated);
+            // dd($users->first());
             foreach ($users as $user) {
-                if ($user->email === $apiuseremail && Hash::check($apiuserpassword, $user->password)) {
-                    //make token
-                    echo "ok verify";
-                    exit;
+                if ($user->email == $validated["email"] && Hash::check($request->password, $user->password)) {
+                    return redirect("/")->with("success", "logged in");
                 }
             }
-            echo "no email matching";
+                echo "no matching user found";
         } else {
-            return redirect()->back()->with("error", "no users found in the database");
+            return redirect("/login")->with("error", "no matching user found");
         }
+    }
+
+    public function appRegister(Request $request)
+    {
+        // dd($request);
+        $validated = $request->validate([
+            "email" => "required|email",
+            "password" => "required",
+        ]);
+
+        return redirect("/")->with("success", "registered");
+    }
+
+
+    public function appLogout(Request $request)
+    {
+        // session_destroy() && session()->invalidate();
+
+
+        return redirect("/login")->with("success", "logged out");
     }
 }

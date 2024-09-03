@@ -15,10 +15,12 @@ class CheckIfUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($user = $request->user()) {
+        // if ($user = $request->user()) {
+        // return $next($request);
+        // } else {
+        //     redirect("/login");
+        // }
+   
         return $next($request);
-        } else {
-            redirect("/login");
-        }
     }
 }

@@ -1,21 +1,26 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Resources\UserResource;
-use App\Models\User;
 
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/login', function () {
-    return view('account/login');
-});
-Route::get('/register', function () {
-    return view('account/register');
+
+
+Route::prefix('account')->group(function () {
+    Route::post('/login', [LoginController::class, 'appLogin'])->name('login');
+    Route::post('/register', [LoginController::class, 'appRegister'])->name('register');
+    Route::get('/logout', [LoginController::class, 'appLogout'])->name('logout');
 });
 
+Route::group([], function () {
+    Route::get('/login', [LoginController::class,'app']);
+    Route::get('/register', [LoginController::class,'app']);
+    Route::get('/logout', [LoginController::class,'app']);
+});
 
 Route::resources([
     'quiz' => QuizController::class,

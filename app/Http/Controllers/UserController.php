@@ -41,10 +41,10 @@ class UserController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $this->validate($request, [
-            "name"=> "required",
+        
+        $validated = $request->validate([
             "email"=> "required",
-            "password"=> REQ_PASSWORD,
+            "password"=> "required",
             ]);
     }
 
