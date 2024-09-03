@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Cache;
 
 class CheckIfUser
 {
@@ -15,12 +16,16 @@ class CheckIfUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // if ($user = $request->user()) {
-        // return $next($request);
-        // } else {
-        //     redirect("/login");
-        // }
-   
-        return $next($request);
+        $uri = $request->getRequestUri();
+        if (str_contains($uri, "login") || str_contains($uri, "register") || str_contains($uri, "logout")) {
+            return $next($request);
+        } else {
+            //this is when no account
+            if (Cache::has('email')) {
+                return $next($request);
+            } else {
+                return redirect("/login")->with("warning", "registrate or login");
+            }
+        }
     }
 }

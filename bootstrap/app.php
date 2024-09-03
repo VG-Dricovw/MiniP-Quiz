@@ -13,9 +13,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-       
+        $middleware->append(CheckIfUser::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
-// $middleware->append(CheckIfUser::class);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Hash;
+use Cache;
 use Illuminate\Http\Request;
 use DB;
 
@@ -46,27 +47,38 @@ class LoginController extends Controller
                     return redirect("/")->with("success", "logged in");
                 }
             }
-                echo "no matching user found";
+            return redirect("/login")->with("warning", "no matching user found");
         } else {
-            return redirect("/login")->with("error", "no matching user found");
+            return redirect("/login")->with("warning", "no users found in database");
         }
     }
 
     public function appRegister(Request $request)
     {
-        // dd($request);
+
+        $request->request->add(['name' => substr($request->email, 0, strpos($request->email, "@"))]);
+        $request->request->set('password', Hash::make($request->password));
         $validated = $request->validate([
             "email" => "required|email",
             "password" => "required",
+            "name" => "required",
         ]);
-
-        return redirect("/")->with("success", "registered");
+        
+        
+        $users = DB::table("users")->insert($validated);
+        if ($users) {
+            Cache::put($validated, now()->addMinutes(60));
+            return redirect("/")->with("success", "registered");
+        } else {
+            return redirect("/login")->with("warning", "could not register this user");
+        }
     }
 
 
     public function appLogout(Request $request)
     {
         // session_destroy() && session()->invalidate();
+        Cache::flush();
 
 
         return redirect("/login")->with("success", "logged out");

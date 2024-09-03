@@ -1,5 +1,8 @@
 <x-nav>
 
+<?php
+
+?>
     <div class="mt-20 justify-center content-center flex">
         <a class="button place-content-center mr-20 bg-red-800 rounded-md p-2 text-white" href="/start"><button>take
                 the
