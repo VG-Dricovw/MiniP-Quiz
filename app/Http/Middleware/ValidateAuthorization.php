@@ -33,7 +33,6 @@ class ValidateAuthorization
                     return $next($request);
                 case "admin":
                     return $next($request);
-
             }
         }
     }

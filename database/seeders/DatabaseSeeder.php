@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
             ["role" => "user"],
             ["role" => "creator"]
         ))->create();
-
         User::factory()->create([
             'name' => 'quizmaster',
             'email' => 'quiz@example.com',
@@ -29,6 +28,26 @@ class DatabaseSeeder extends Seeder
             'password' => 'quiz'
         ]);
 
-        Question::factory(5)->create();
+        $data = [
+            [
+                "question" => "Why does a gambler sleep on the floor?",
+                "answer" => "lost the bet"   
+            ],
+            [
+                "question" => "How does Santa make the presents?",
+                "answer" => "red"   
+            ],
+            [
+                "question" => "How many germans does it take to change a lightbulb?",
+                "answer" => "9"   
+            ],
+            [
+                "question" => "How many people can stand on the back of a politician?",
+                "answer" => "0"   
+            ],
+        ];
+        foreach ($data as $value) {
+        Question::factory()->create($value);
+        }
     }
 }

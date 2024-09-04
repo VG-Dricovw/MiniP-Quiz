@@ -21,7 +21,7 @@ class ValidateJWTToken
 
         return $next($request);
         } else {
-            return response("not authorized", Response::HTTP_FORBIDDEN);
+            return response("not authorized", Response::HTTP_UNAUTHORIZED);
         }
     }
 }

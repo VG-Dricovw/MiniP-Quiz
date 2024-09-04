@@ -24,13 +24,19 @@ class APITest extends TestCase
     {
         $response = $this->postJson('/api/auth/login', ["email" => $email, "password" => $password]);
         return json_decode($response->getContent())->access_token;
+    }
 
+    public function test_api_need_token(): void
+    {
+        $response = $this->getJson('api/users');
+        $response->assertSee('not authorized');
+        $response->assertUnauthorized();
     }
 
     public function test_api_user_index(): void
     {
         $token = $this->getToken();
-        dump($token);
+        // dump($token);
         $response = $this->withHeader("Authorization", "Bearer " . $token)->getJson('api/users');
         $response->assertStatus(200);
 
@@ -49,7 +55,7 @@ class APITest extends TestCase
     {
         $token = $this->getToken();
         $response = $this->withHeader("Authorization", "Bearer " . $token)->postJson('api/users', ['email' => 'drico@vg.com', 'password' => 'vg', 'name' => 'drico']);
-        $response->assertStatus(201);
+        $response->assertCreated();
 
     }
 
@@ -73,7 +79,7 @@ class APITest extends TestCase
     public function test_api_quiz_index(): void
     {
         $token = $this->getToken();
-        dump($token);
+        // dump($token);
         $response = $this->withHeader("Authorization", "Bearer " . $token)->getJson('api/quiz');
         $response->assertStatus(200);
 
@@ -94,7 +100,7 @@ class APITest extends TestCase
         $response = $this->withHeader("Authorization", "Bearer " . $token)->postJson('api/quiz', ['chapter' => 2, 'question' => "why does a gambler sleep on the floor?", 'answer' => 'He lost the bet']);
 
         // dump($this->preventDuplicate);
-        $response->assertStatus(201);
+        $response->assertCreated();
 
     }
 

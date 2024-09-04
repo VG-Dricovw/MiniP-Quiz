@@ -32,18 +32,20 @@ class LoginController extends Controller
 
     public function appLogin(Request $request)
     {
+        $users = DB::table("users")->whereNotNull("email_verified_at")->get();
+
         $validated = $request->validate([
             "email" => "required",
             "password" => "required",
         ]);
-
-        $users = DB::table("users")->whereNotNull("email_verified_at")->get();
 
         if ($users->count() > 0) {
             // var_dump($validated);
             // dd($users->first());
             foreach ($users as $user) {
                 if ($user->email == $validated["email"] && Hash::check($request->password, $user->password)) {
+                    Cache::put($validated, now()->addMinutes(60));
+                    Cache::add("role", $user->role);
                     return redirect("/")->with("success", "logged in");
                 }
             }
@@ -63,8 +65,8 @@ class LoginController extends Controller
             "password" => "required",
             "name" => "required",
         ]);
-        
-        
+
+
         $users = DB::table("users")->insert($validated);
         if ($users) {
             Cache::put($validated, now()->addMinutes(60));
