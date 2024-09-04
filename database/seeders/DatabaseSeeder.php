@@ -25,6 +25,8 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'quizmaster',
             'email' => 'quiz@example.com',
+            'role' => 'admin',
+            'password' => 'quiz'
         ]);
 
         Question::factory(5)->create();

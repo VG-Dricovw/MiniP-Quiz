@@ -17,7 +17,7 @@ class CheckIfUser
     public function handle(Request $request, Closure $next): Response
     {
         $uri = $request->getRequestUri();
-        if (str_contains($uri, "login") || str_contains($uri, "register") || str_contains($uri, "logout")) {
+        if (str_contains($uri, "login") || str_contains($uri, "register") || str_contains($uri, "logout") || str_contains($uri, "api")) {
             return $next($request);
         } else {
             //this is when no account

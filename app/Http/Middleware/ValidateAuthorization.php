@@ -20,7 +20,7 @@ class ValidateAuthorization
 
         $uri = $request->getRequestUri();
         // dd($uri);
-
+        //5 is for index
         if (strlen($uri) === 5 || str_contains($uri, "show")) {
             return $next($request);
         } else {
