@@ -27,6 +27,7 @@ Route::group([], function () {
 Route::group(["middleware" => ValidateAuthorization::class], function () {
     Route::get("/quiz/display/{where}", [QuizController::class, "display"])->name("display");
     Route::post("/quiz/grade", [QuizController::class, "grade"])->name("grade");
+    // Route::get("/quiz/result", [QuizController::class, ""])
     Route::resource("user", UserController::class);
     Route::resource("quiz", QuizController::class);
 });
