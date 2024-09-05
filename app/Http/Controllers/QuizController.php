@@ -30,16 +30,14 @@ class QuizController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
 
         $quiz = new Question();
         $quiz->chapter = $request->chapter;
         $quiz->question = $request->question;
         $quiz->answer = $request->answer;
         $quiz->save();
-        return response()->json([
-            "message" => "question added"
-        ], 201);
+        return redirect('/')->with('success', "question created");
     }
 
     public function show($id)
@@ -79,18 +77,13 @@ class QuizController extends Controller
 
     public function destroy($id)
     {
-        dd("destoryryry");
         if (Question::where('id', $id)->exists()) {
             $question = Question::find($id);
             $question->delete();
 
-            return response()->json([
-                "message" => "deleted question"
-            ], 202);
+            return redirect('/quiz/display/display')->with('success', "question deleted");
         } else {
-            return response()->json([
-                "message" => "question no found"
-            ], 404);
+            return redirect('/quiz/display/display')->with('warning', "could not find the question");
 
         }
 
@@ -98,20 +91,27 @@ class QuizController extends Controller
 
     public function grade(Request $request)
     {
-        // dd($request->all());
         $quizz = Question::all();
-
+        $data = [];
+        // $request = $request->orderBy();
         $amountCorrect = 0;
+        // dump($request->get(5));
+        // dump($quizz[5]);
         if (count($quizz) === count($request->all()) - 1) {
-            for ($i = 1; $i < count($quizz); $i++) {
-                if ($request->get($i) == $quizz[$i - 1]['answer']) {
+            for ($i = 1; $i < count($request->all()); $i++) {
+                // dump(strtolower($request->get($i)));
+                // dump(strtolower($quizz[$i - 1]['answer']));
+                if (strtolower($quizz[$i - 1]['answer']) == strtolower($quizz[$i - 1]['answer'])) {
                     $amountCorrect++;
                 }
+                array_push($data, ["question" => strtolower($quizz[$i - 1]['answer']), "answer" => strtolower($quizz[$i - 1]['answer'])]);
             }
-
-            return redirect('/')->with('success',$amountCorrect);
+            $data += ["correct" => $amountCorrect];
+            // dd($data);
+            return view("/quiz/result", compact("data"));
         } else {
             return redirect("/quiz/display/take")->with("warning", "fill in all the fields");
         }
     }
 }
+//$data += ["question" => $quizz[$i - 1]['answer'], "answer" => $request->get($i)];
